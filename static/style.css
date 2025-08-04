@@ -1,0 +1,113 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #7bd0f1;
+}
+
+.container {
+    width: 90%;
+    margin: auto;
+    padding: 60px;
+    background-color: white;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-top: 50px;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+/* Layout for Left & Right Side */
+.content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+/* Left Side (Output Box) */
+.left-side {
+    width: 80%;
+    text-align: left;
+}
+
+.left-side label {
+    font-weight: bold;
+    font-size: 16px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+#outputText {
+    width: 100%;
+    height: 300px;
+    background-color: #f5f5dc; /* Cream Color */
+    border: 2px solid #ccc;
+    padding: 10px;
+    font-size: 16px;
+    font-family: "Courier New", monospace;
+    resize: none;
+    outline: none;
+    line-height: 1.6;
+    border-radius: 5px;
+    background-image: linear-gradient(white 100%);
+    background-size: 100% 32px;
+}
+
+/* Right Side (Drag & Drop + Buttons) */
+.right-side {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* Pushes everything to the right */
+    text-align: right;
+}
+
+#drop-area {
+    width: 75%;
+    border: 2px dashed #007bff;
+    padding: 20px;
+    cursor: pointer;
+    background-color: #f9f9f9;
+    text-align: center;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    
+    /* Align to the right */
+    margin-left: auto;  
+}
+
+#drop-area:hover {
+    background-color: #e6f2ff;
+}
+
+/* Buttons */
+button {
+    width: 95%;
+    padding: 10px 15px;
+    margin: 10px 0;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+#submitBtn {
+    background-color: #007bff;
+    color: white;
+}
+
+#realTimeBtn {
+    background-color: #007bff;
+    color: white;
+}
+
+#realTimeBtn.listening {
+    background-color: #dc3545;
+}
+
+#stopBtn {
+    background-color: #007bff;
+    color: white;
+}

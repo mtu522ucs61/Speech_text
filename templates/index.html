@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech to Text</title>
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>Speech to Text</h1>
+    <div class="content">
+        <div class="left-side">
+            <label for="outputText">Converted Text:</label>
+            <textarea id="outputText" readonly></textarea>
+        </div>
+
+        <div class="right-side">
+            <!-- Real-time Speech Button -->
+            <button id="realTimeBtn" onclick="startRealTimeRecording()">Start Real-Time Speech</button>
+            <button id="stopBtn" onclick="stopRealTimeRecording()">Stop</button>
+
+            <div id="drop-area" onclick="triggerFileUpload()">Click to Upload Audio</div>
+            <input type="file" id="fileInput" accept="audio/*" style="display:none" onchange="uploadAudioFile()">
+        </div>
+    </div>
+</div>
+
+<script>
+    let isRecording = false;
+    let mediaRecorder;
+    let audioChunks = [];
+
+    // Start real-time speech recognition
+    function startRealTimeRecording() {
+        document.getElementById("realTimeBtn").innerText = "Listening...";
+        document.getElementById("realTimeBtn").classList.add("listening");
+        isRecording = true;
+
+        // Call Flask API for real-time recognition
+        fetch("/record", { method: "POST" })
+            .then(response => {
+                console.log(response);  // Log the raw response
+                return response.json(); // Try parsing JSON if it's valid
+            })
+            .then(data => {
+                if (data.text) {
+                    document.getElementById("outputText").value = data.text;
+                } else if (data.error) {
+                    alert(data.error);
+                }
+            })
+            .catch(error => alert("Error: " + error));
+    }
+
+    // Stop real-time speech recognition
+    function stopRealTimeRecording() {
+        isRecording = false;
+        document.getElementById("realTimeBtn").innerText = "Start Real-Time Speech";
+        document.getElementById("realTimeBtn").classList.remove("listening");
+    }
+
+    // Trigger file input for uploading audio
+    function triggerFileUpload() {
+        document.getElementById("fileInput").click();
+    }
+
+    // Handle audio file upload
+    function uploadAudioFile() {
+        const fileInput = document.getElementById("fileInput");
+        const file = fileInput.files[0];
+        const formData = new FormData();
+        formData.append("file", file);
+
+        fetch("/upload", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.text) {
+                document.getElementById("outputText").value = data.text;
+            } else if (data.error) {
+                alert(data.error);
+            }
+        })
+        .catch(error => alert("Error: " + error));
+    }
+</script>
+
+</body>
+</html>
